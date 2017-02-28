@@ -1,18 +1,50 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import firebase from 'firebase';
 
-/*
-  Generated class for the ProfileData provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
 export class ProfileData {
+  public userProfile: any;
+  public currentUser: any;
 
-  constructor(public http: Http) {
-    console.log('Hello ProfileData Provider');
+  constructor() {
+    this.currentUser = firebase.auth().currentUser;
+    this.userProfile = firebase.database().ref('/userProfile');
   }
 
+  getUserProfile(): any {
+    return this.userProfile.child(this.currentUser.uid);
+  }
+
+  updateName(firstName: string, lastName: string): any {
+    return this.userProfile.child(this.currentUser.uid).update({
+      firstName: firstName,
+      lastName: lastName,
+    });
+  }
+
+  updateDOB(birthDate: string): any {
+    return this.userProfile.child(this.currentUser.uid).update({
+      birthDate: birthDate,
+    });
+  }
+
+  updateEmail(newEmail: string, password: string): Promise<any> {
+    const credential = firebase.auth.EmailAuthProvider.credential(this.currentUser.email, password);
+    return this.currentUser.reauthenticate(credential).then(user => {
+      this.currentUser.updateEmail(newEmail).then(user => {
+        this.userProfile.child(this.currentUser.uid).update({ email: newEmail });
+      });
+    });
+  }
+
+  updatePassword(newPassword: string, oldPassword: string): Promise<any> {
+    const credential = firebase.auth.EmailAuthProvider.credential(this.currentUser.email, oldPassword);
+    return this.currentUser.reauthenticate(credential).then(user => {
+      this.currentUser.updatePassword(newPassword).then(user => {
+        console.log("Password Changed");
+      }, error => {
+        console.log(error);
+      });
+    });
+  }
 }

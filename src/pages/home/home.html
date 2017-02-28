@@ -4,7 +4,17 @@
       Home Page
     </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="logOut()"><ion-icon name="log-out"></ion-icon></button>
+      <button (click)="goToProfile()"><ion-icon name="person"></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
+
+<ion-content padding>
+  <button ion-button block color="primary" (click)="goToCreate()">
+    Create a new Event
+  </button>
+
+  <button ion-button block color="primary" (click)="goToList()">
+    See your events
+  </button>
+</ion-content>
