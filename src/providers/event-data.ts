@@ -40,7 +40,7 @@ export class EventData {
         event.revenue += eventPrice;
         return event;
       });
-      
+
       if (guestPicture != null) {
         this.profilePictureRef.child(newGuest.key).child('profilePicture.png')
           .putString(guestPicture, 'base64', { contentType: 'image/png' })

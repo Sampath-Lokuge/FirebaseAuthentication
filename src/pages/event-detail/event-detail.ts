@@ -26,7 +26,7 @@ export class EventDetailPage {
   }
 
   addGuest(guestName): void {
-    this.eventData.addGuest(guestName, this.currentEvent.id, this.currentEvent.price, this.guestPicture)
+    this.eventData.addGuest(guestName, this.currentEvent.id, Number(this.currentEvent.price), this.guestPicture)
       .then(() => {
         this.guestName = '';
         this.guestPicture = null;

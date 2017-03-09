@@ -1,15 +1,17 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>EventList</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Event List</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let event of eventList" (click)="goToEventDetail(event.id)">
-      <h2>{{event?.name}}</h2>
+  <ion-card *ngFor="let event of eventList" (click)="goToEventDetail(event.id)" color="secondary">
+    <ion-card-content>
+     <p>Event Name: <strong>{{event?.name}}</strong></p>
       <p>Ticket: <strong>${{event?.price}}</strong></p>
+      <p>Cost: <strong>${{event?.cost}}</strong></p>
       <p>Date: <strong>{{event?.date}}</strong></p>
-    </ion-item>
-  </ion-list>
+    </ion-card-content>
+  </ion-card>
+ 
 </ion-content>
